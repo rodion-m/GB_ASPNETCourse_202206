@@ -61,7 +61,7 @@ app.MapGet("/", () => "Откройте страницы /send или /product")
 app.MapGet("/send", SendMails);
 app.MapGet("/product", () => {
     DomainEventsManager.Raise(new ProductAdded(new Product() {Name = "Мандарин"}));
-    return "Товар добавлен";
+    return "Событие добавление товара вызвано";
 });
 app.MapControllers();
 

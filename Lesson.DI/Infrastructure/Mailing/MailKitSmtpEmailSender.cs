@@ -1,4 +1,5 @@
-﻿using Lesson.DI.Configs;
+﻿using System.Net.Sockets;
+using Lesson.DI.Configs;
 using MailKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -47,19 +48,16 @@ public class MailKitSmtpEmailSender : IEmailSender, IDisposable, IAsyncDisposabl
         if (subject == null) throw new ArgumentNullException(nameof(subject));
         if (htmlBody == null) throw new ArgumentNullException(nameof(htmlBody));
         
-        EnsureConnectedAndAuthenticated(cancellationToken);
         var fromEmail = senderEmail ?? _config.UserName;
         MimeMessage mimeMessage = CreateMimeMessage(senderName, fromEmail, to, subject, htmlBody);
+        
         try
         {
             //см. список исключений в документации. http://www.mimekit.net/docs/html/T_MailKit_Net_Smtp_SmtpCommandException.htm
+            EnsureConnectedAndAuthenticated(cancellationToken);
             _smtpClient.Send(mimeMessage, cancellationToken);
         }
-        catch (SmtpCommandException e)
-        {
-            throw new ConnectionException(e.Message, innerException: e);
-        }
-        catch (SslHandshakeException e)
+        catch (Exception e) when (e is SmtpCommandException or SslHandshakeException or SocketException)
         {
             throw new ConnectionException(e.Message, innerException: e);
         }
@@ -73,19 +71,16 @@ public class MailKitSmtpEmailSender : IEmailSender, IDisposable, IAsyncDisposabl
         if (subject == null) throw new ArgumentNullException(nameof(subject));
         if (htmlBody == null) throw new ArgumentNullException(nameof(htmlBody));
         
-        await EnsureConnectedAndAuthenticatedAsync(cancellationToken);
         var fromEmail = senderEmail ?? _config.UserName;
         MimeMessage mimeMessage = CreateMimeMessage(senderName, fromEmail, to, subject, htmlBody);
+
         try
         {
             //см. список исключений в документации. http://www.mimekit.net/docs/html/T_MailKit_Net_Smtp_SmtpCommandException.htm
+            await EnsureConnectedAndAuthenticatedAsync(cancellationToken);
             await _smtpClient.SendAsync(mimeMessage, cancellationToken);
         }
-        catch (SmtpCommandException e)
-        {
-            throw new ConnectionException(e.Message, innerException: e);
-        }
-        catch (SslHandshakeException e)
+        catch (Exception e) when (e is SmtpCommandException or SslHandshakeException or SocketException)
         {
             throw new ConnectionException(e.Message, innerException: e);
         }

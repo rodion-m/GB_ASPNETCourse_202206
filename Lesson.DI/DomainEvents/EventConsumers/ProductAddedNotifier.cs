@@ -10,22 +10,19 @@ public class ProductAddedNotifier : BackgroundService
     private CancellationToken _stoppingToken;
 
     public ProductAddedNotifier(
-        IServiceScopeFactory serviceScopeFactory, 
+        IServiceScopeFactory serviceScopeFactory,
         ILogger<ProductAddedNotifier> logger)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
-        DomainEventsManager.Register<ProductAdded>(ev =>
-        {
-            _ = SendEmailNotification(ev);
-        });
+        DomainEventsManager.Register<ProductAdded>(ev => { _ = SendEmailNotification(ev); });
     }
 
     private async Task SendEmailNotification(ProductAdded ev)
     {
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
         var emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
-        
+
         Task SendAsync(CancellationToken cancellationToken)
         {
             return emailSender.SendAsync(
@@ -39,11 +36,13 @@ public class ProductAddedNotifier : BackgroundService
 
         var policy = Policy
             .Handle<ConnectionException>() //ретраим только ошибки подключения
-            .RetryAsync(3, (exception, retryAttempt) =>
-            {
-                _logger.LogWarning(
-                    exception, "There was an error while sending email. Retrying: {Attempt}", retryAttempt);
-            });
+            .WaitAndRetryAsync(3,
+                retryAttempt => TimeSpan.FromSeconds(Math.Pow(retryAttempt, 2)),
+                (exception, retryAttempt) =>
+                {
+                    _logger.LogWarning(
+                        exception, "There was an error while sending email. Retrying: {Attempt}", retryAttempt);
+                });
         var result = await policy.ExecuteAndCaptureAsync(SendAsync, _stoppingToken);
         if (result.Outcome == OutcomeType.Failure)
             _logger.LogError(result.FinalException, "There was an error while sending email");

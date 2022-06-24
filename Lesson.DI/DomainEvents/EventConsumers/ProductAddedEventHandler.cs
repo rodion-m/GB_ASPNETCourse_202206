@@ -3,15 +3,15 @@ using Polly;
 
 namespace Lesson.DI.DomainEvents.EventConsumers;
 
-public class ProductAddedNotifier : BackgroundService
+public class ProductAddedEventHandler : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly ILogger<ProductAddedNotifier> _logger;
+    private readonly ILogger<ProductAddedEventHandler> _logger;
     private CancellationToken _stoppingToken;
 
-    public ProductAddedNotifier(
+    public ProductAddedEventHandler(
         IServiceScopeFactory serviceScopeFactory,
-        ILogger<ProductAddedNotifier> logger)
+        ILogger<ProductAddedEventHandler> logger)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;

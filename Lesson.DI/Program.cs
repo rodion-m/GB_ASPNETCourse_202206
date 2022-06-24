@@ -18,7 +18,7 @@ builder.Services.Configure<JsonOptions>(options => { options.SerializerOptions.W
 builder.Services.Configure<SmtpConfig>(builder.Configuration.GetSection("SmtpConfig"));
 builder.Services.AddSingleton<MELProtocolLogger>();
 builder.Services.AddScoped<IEmailSender, MailKitSmtpEmailSender>();
-builder.Services.AddHostedService<ProductAddedNotifier>();
+builder.Services.AddHostedService<ProductAddedEventHandler>();
 
 builder.Services.AddControllers();
 

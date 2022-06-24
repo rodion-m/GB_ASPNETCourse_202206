@@ -57,7 +57,8 @@ public class MailKitSmtpEmailSender : IEmailSender, IDisposable, IAsyncDisposabl
             EnsureConnectedAndAuthenticated(cancellationToken);
             _smtpClient.Send(mimeMessage, cancellationToken);
         }
-        catch (Exception e) when (e is SmtpCommandException or SslHandshakeException or SocketException)
+        catch (Exception e) when (
+            e is SmtpCommandException or SslHandshakeException or SocketException)
         {
             throw new ConnectionException(e.Message, innerException: e);
         }
@@ -80,7 +81,8 @@ public class MailKitSmtpEmailSender : IEmailSender, IDisposable, IAsyncDisposabl
             await EnsureConnectedAndAuthenticatedAsync(cancellationToken);
             await _smtpClient.SendAsync(mimeMessage, cancellationToken);
         }
-        catch (Exception e) when (e is SmtpCommandException or SslHandshakeException or SocketException)
+        catch (Exception e) when (
+            e is SmtpCommandException or SslHandshakeException or SocketException)
         {
             throw new ConnectionException(e.Message, innerException: e);
         }

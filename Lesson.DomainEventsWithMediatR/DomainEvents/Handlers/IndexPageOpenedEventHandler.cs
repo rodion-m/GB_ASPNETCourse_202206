@@ -23,7 +23,7 @@ public class IndexPageOpenedEventHandler : INotificationHandler<IndexPageOpened>
 
     public void Dispose()
     {
-        //!!! DISPOSE может быть вызван до завершения метода Handle
+        //Проблема: DISPOSE может быть вызван до завершения метода Handle
         _logger.LogWarning("Disposing");
     }
 }

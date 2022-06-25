@@ -28,15 +28,13 @@ namespace WpfDeadlockExample
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             //WaitOneSec().Wait(); //дедлок случится здесь
-            WaitOneSecond().ConfigureAwait(false)
-                .GetAwaiter().GetResult(); //дедлок случится здесь
+            WaitOneSecond().GetAwaiter().GetResult(); //дедлок случится здесь
             Title = "Это сообщение не покажется никогда";
         }
         
         private async Task WaitOneSecond()
         {
-            await Task.Delay(TimeSpan.FromSeconds(1))
-                .ConfigureAwait(false);
+            await Task.Delay(TimeSpan.FromSeconds(1));
             //await Task.Delay(TimeSpan.FromSeconds(1));
         }
     }

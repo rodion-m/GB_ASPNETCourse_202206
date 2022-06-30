@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿using System.Diagnostics;
+using System.Net.Mail;
 
 namespace Lesson.AsyncFeatures;
 
@@ -39,15 +40,26 @@ public class RealThreadsCountDemo
         }
     }
 
-    public static void RunSync()
+    public static void Run(bool blocking)
     {
         PrintThreadCount();
+        var sw = Stopwatch.StartNew();
         for (int i = 0; i < 100; i++)
         {
             Task.Run(() =>
             {
-                Console.WriteLine("Thread Started: " + Environment.CurrentManagedThreadId);
-                Thread.Sleep(TimeSpan.FromMinutes(1));
+                Console.WriteLine($"Thread Started in {sw.ElapsedMilliseconds} ms: " 
+                                  + Environment.CurrentManagedThreadId);
+                if (blocking)
+                {
+                    Thread.Sleep(TimeSpan.FromMinutes(1));
+                }
+                else
+                {
+                    //тредпул создает новые треды быстрее,
+                    //т.к. таски с вэйтами оповещают тредпул о своей блокировке
+                    Task.Delay(TimeSpan.FromMinutes(1)).Wait();
+                }
             });
         }
 
@@ -57,8 +69,7 @@ public class RealThreadsCountDemo
             Thread.Sleep(TimeSpan.FromSeconds(1));
             PrintThreadCount();
         }
-
-
+        
         Thread.Sleep(TimeSpan.FromMinutes(1));
         Console.WriteLine(ThreadPool.ThreadCount);
     }

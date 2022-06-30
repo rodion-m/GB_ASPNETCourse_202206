@@ -23,6 +23,7 @@ public class MailKitSmtpEmailSender : IEmailSender, IDisposable, IAsyncDisposabl
 {
     private readonly SmtpClient _smtpClient;
     private readonly SmtpConfig _config;
+    private bool _disposed;
 
     public MailKitSmtpEmailSender(
         IOptions<SmtpConfig> options, 
@@ -48,9 +49,14 @@ public class MailKitSmtpEmailSender : IEmailSender, IDisposable, IAsyncDisposabl
         if (subject == null) throw new ArgumentNullException(nameof(subject));
         if (htmlBody == null) throw new ArgumentNullException(nameof(htmlBody));
         
+        if (_disposed)
+        {
+            throw new ObjectDisposedException(nameof(_smtpClient));
+        }
+        
         var fromEmail = senderEmail ?? _config.UserName;
         MimeMessage mimeMessage = CreateMimeMessage(senderName, fromEmail, to, subject, htmlBody);
-        
+
         try
         {
             //см. список исключений в документации. http://www.mimekit.net/docs/html/T_MailKit_Net_Smtp_SmtpCommandException.htm
@@ -71,6 +77,11 @@ public class MailKitSmtpEmailSender : IEmailSender, IDisposable, IAsyncDisposabl
         if (to == null) throw new ArgumentNullException(nameof(to));
         if (subject == null) throw new ArgumentNullException(nameof(subject));
         if (htmlBody == null) throw new ArgumentNullException(nameof(htmlBody));
+
+        if (_disposed)
+        {
+            throw new ObjectDisposedException(nameof(_smtpClient));
+        }
         
         var fromEmail = senderEmail ?? _config.UserName;
         MimeMessage mimeMessage = CreateMimeMessage(senderName, fromEmail, to, subject, htmlBody);
@@ -126,15 +137,17 @@ public class MailKitSmtpEmailSender : IEmailSender, IDisposable, IAsyncDisposabl
 
     public void Dispose() //ликвидация зависимости
     {
-        TaskScheduler.UnobservedTaskException += (sender, args) => Console.WriteLine(args.Exception);
+        if (_disposed) return;
         if (_smtpClient.IsConnected)
         {
             _smtpClient.Disconnect(true);
         }
         _smtpClient.Dispose();
+        _disposed = true;
     }
     public async ValueTask DisposeAsync()
     {
+        if (_disposed) return;
         if (_smtpClient.IsConnected)
         {
             //Есть вероятность эксепшена, тогда часть соединений не закроется никогда

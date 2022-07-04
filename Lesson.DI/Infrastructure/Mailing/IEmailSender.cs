@@ -2,6 +2,7 @@ namespace Lesson.DI.Infrastructure.Mailing;
 
 public interface IEmailSender
 {
+    /// <exception cref="ConnectionException">This method has to throw this exception due to connection errors</exception>
     void Send(string senderName,
         string to,
         string subject,
@@ -9,6 +10,8 @@ public interface IEmailSender
         string? senderEmail = null,
         CancellationToken cancellationToken = default
     );
+    
+    /// <exception cref="ConnectionException">This method has to throw this exception due to connection errors</exception>
     Task SendAsync(string senderName,
         string to,
         string subject,

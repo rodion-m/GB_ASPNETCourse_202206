@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json;
 using Lesson.DI.Configs;
 using Lesson.DI.DomainEvents;
 using Lesson.DI.DomainEvents.EventConsumers;
@@ -21,6 +22,7 @@ builder.Services.AddScoped<IEmailSender, MailKitSmtpEmailSender>();
 builder.Services.AddHostedService<ProductAddedEventHandler>();
 
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 
 //ValidateAllConfigsBeta();
 
@@ -56,6 +58,20 @@ async IAsyncEnumerable<string> SendMails(
         await Task.Delay(TimeSpan.FromMinutes(15));
     }
 }
+
+app.Map("/version", async context =>
+{
+    
+});
+
+// var httpClient = new HttpClient();
+// var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+// httpClient.GetAsync("/send2", cts.Token);
+// cts.Cancel();
+
+// app.MapGet("/send2", 
+//     (IEmailSender sender, CancellationToken token) 
+//         => sender.SendAsync(cancellationToken: token));
 
 app.MapGet("/", () => "Откройте страницы /send или /product");
 app.MapGet("/send", SendMails);

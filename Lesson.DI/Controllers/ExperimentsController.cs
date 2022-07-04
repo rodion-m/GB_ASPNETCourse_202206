@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Lesson.DI.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Lesson.DI.Controllers;
 
@@ -6,25 +7,24 @@ namespace Lesson.DI.Controllers;
 [Route("Experiments")]
 public class ExperimentsController : ControllerBase
 {
-    private readonly ILogger<ExperimentsController> _logger;
-    private readonly CancellationToken _cancellationToken;
+    private readonly ILogger<ExperimentsController> _logger; 
 
-    public ExperimentsController(ILogger<ExperimentsController> logger, 
-        CancellationToken cancellationToken)
+    public ExperimentsController(ILogger<ExperimentsController> logger)
     {
         _logger = logger;
-        _cancellationToken = cancellationToken;
     }
 
     [HttpGet("ForeverPrint")]
-    public async Task ForeverPrint(
-        [FromQuery] string text)
+    public IActionResult ForeverPrint(
+        [FromQuery] string text, CancellationToken cancellationToken)
     {
+        //HttpContext.RequestAborted
         while (true)
         {
             _logger.LogInformation("{Text} DateTime: {DateTime}", text, DateTime.Now);
-            await Task.Delay(TimeSpan.FromSeconds(1), _cancellationToken);
-            _cancellationToken.ThrowIfCancellationRequested();
+            //await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
         }
+
+        return Ok(new Product());
     }
 }

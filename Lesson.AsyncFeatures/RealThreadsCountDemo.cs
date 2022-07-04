@@ -58,7 +58,7 @@ public class RealThreadsCountDemo
                 {
                     //тредпул создает новые треды быстрее,
                     //т.к. таски с вэйтами оповещают тредпул о своей блокировке
-                    Task.Delay(TimeSpan.FromMinutes(1)).Wait();
+                    Task.Delay(TimeSpan.FromMinutes(1)).Wait(); //sync over async
                 }
             });
         }
@@ -72,6 +72,7 @@ public class RealThreadsCountDemo
         
         Thread.Sleep(TimeSpan.FromMinutes(1));
         Console.WriteLine(ThreadPool.ThreadCount);
+        //ThreadPool.SetMinThreads(100, 100);
     }
 
     private static void PrintThreadCount()

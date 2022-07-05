@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitDeadlockExample", "xUn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Final", "Final\Final.csproj", "{4DE8045B-0601-4263-8952-F4BA63E6F600}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HW", "HW", "{77773C04-5736-466F-B867-FB73DB28B162}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW2_ConcurrentList", "HW2_ConcurrentList\HW2_ConcurrentList.csproj", "{5592F94E-BE85-40F6-A4D1-DB592D28E066}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,11 +67,18 @@ Global
 		{4DE8045B-0601-4263-8952-F4BA63E6F600}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DE8045B-0601-4263-8952-F4BA63E6F600}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DE8045B-0601-4263-8952-F4BA63E6F600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5592F94E-BE85-40F6-A4D1-DB592D28E066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5592F94E-BE85-40F6-A4D1-DB592D28E066}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5592F94E-BE85-40F6-A4D1-DB592D28E066}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5592F94E-BE85-40F6-A4D1-DB592D28E066}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1DF8DB5E-1E4A-40A6-8B9A-E41C48EAA297}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5592F94E-BE85-40F6-A4D1-DB592D28E066} = {77773C04-5736-466F-B867-FB73DB28B162}
 	EndGlobalSection
 EndGlobal

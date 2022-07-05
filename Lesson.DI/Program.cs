@@ -61,7 +61,13 @@ async IAsyncEnumerable<string> SendMails(
 
 app.Map("/version", async context =>
 {
-    
+    Console.WriteLine(context.GetHashCode());
+    _ = Task.Run(async () =>
+    {
+        await Task.Delay(500);
+        Console.WriteLine(context.Request.Path);
+    });
+    await context.Response.WriteAsync("1");
 });
 
 // var httpClient = new HttpClient();

@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HW", "HW", "{77773C04-5736-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW2_ConcurrentList", "HW2_ConcurrentList\HW2_ConcurrentList.csproj", "{5592F94E-BE85-40F6-A4D1-DB592D28E066}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW2_ConcurrentList.Test", "HW\HW2_ConcurrentList.Test\HW2_ConcurrentList.Test.csproj", "{581E1067-B90C-4B95-A4F5-9CB3465C89DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{5592F94E-BE85-40F6-A4D1-DB592D28E066}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5592F94E-BE85-40F6-A4D1-DB592D28E066}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5592F94E-BE85-40F6-A4D1-DB592D28E066}.Release|Any CPU.Build.0 = Release|Any CPU
+		{581E1067-B90C-4B95-A4F5-9CB3465C89DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{581E1067-B90C-4B95-A4F5-9CB3465C89DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{581E1067-B90C-4B95-A4F5-9CB3465C89DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{581E1067-B90C-4B95-A4F5-9CB3465C89DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,5 +86,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5592F94E-BE85-40F6-A4D1-DB592D28E066} = {77773C04-5736-466F-B867-FB73DB28B162}
+		{581E1067-B90C-4B95-A4F5-9CB3465C89DF} = {77773C04-5736-466F-B867-FB73DB28B162}
 	EndGlobalSection
 EndGlobal

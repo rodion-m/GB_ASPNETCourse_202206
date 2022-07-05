@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.Json;
 using Lesson.DI.Configs;
 using Lesson.DI.DomainEvents;
-using Lesson.DI.DomainEvents.EventConsumers;
+using Lesson.DI.DomainEvents.Handlers;
 using Lesson.DI.Entities;
 using Lesson.DI.Infrastructure;
 using Lesson.DI.Infrastructure.Mailing;

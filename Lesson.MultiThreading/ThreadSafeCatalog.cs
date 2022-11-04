@@ -13,7 +13,8 @@ public class ThreadSafeCatalog
     
     public void Add(Product product) => _productsDict.TryAdd(product.Id, product);
 
-    public void Remove(Product product) => _productsDict.TryRemove(product.Id, out _);
+    public void Remove(Product product) 
+        => _productsDict.TryRemove(product.Id, out _);
     
     public IReadOnlyCollection<Product> GetAll() => _productsDict.Values.ToArray();
 }

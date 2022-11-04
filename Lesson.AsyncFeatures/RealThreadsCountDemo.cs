@@ -59,6 +59,7 @@ public class RealThreadsCountDemo
                     //тредпул создает новые треды быстрее,
                     //т.к. таски с вэйтами оповещают тредпул о своей блокировке
                     Task.Delay(TimeSpan.FromMinutes(1)).Wait(); //sync over async
+                    //Task.Delay(TimeSpan.FromMinutes(1)).GetAwaiter().GetResult(); //sync over async
                 }
             });
         }

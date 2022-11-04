@@ -9,9 +9,10 @@ builder.Services.AddScoped<ScopedDependency>();
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
-app.MapGet("/", (IMediator mediator) =>
+app.MapGet("/", async (IMediator mediator) =>
 {
-    mediator.Publish(new IndexPageOpened(DateTimeOffset.Now));
+    _ = mediator.Publish(new IndexPageOpened(DateTimeOffset.Now));
+    await Task.Delay(10);
     return "Hello World!";
 });
 

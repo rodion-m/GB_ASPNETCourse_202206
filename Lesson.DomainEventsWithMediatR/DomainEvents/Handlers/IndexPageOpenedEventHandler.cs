@@ -8,7 +8,9 @@ public class IndexPageOpenedEventHandler : INotificationHandler<IndexPageOpened>
     private readonly ILogger<IndexPageOpenedEventHandler> _logger;
     private readonly ScopedDependency _scopedDependency;
 
-    public IndexPageOpenedEventHandler(ILogger<IndexPageOpenedEventHandler> logger, ScopedDependency scopedDependency)
+    public IndexPageOpenedEventHandler(
+        ILogger<IndexPageOpenedEventHandler> logger, 
+        ScopedDependency scopedDependency)
     {
         _logger = logger;
         _scopedDependency = scopedDependency;
@@ -16,7 +18,7 @@ public class IndexPageOpenedEventHandler : INotificationHandler<IndexPageOpened>
 
     public async Task Handle(IndexPageOpened notification, CancellationToken cancellationToken)
     {
-        // Если сервер остановится, то cancellationToken НЕ сработает. 
+        // Если сервер остановится, то cancellationToken НЕ сработает.
         await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
         _logger.LogInformation("Do some stuffff here");
     }

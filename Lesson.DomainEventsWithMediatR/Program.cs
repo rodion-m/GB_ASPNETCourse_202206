@@ -1,18 +1,22 @@
-using System.Reflection;
 using Lesson.DomainEventsWithMediatR;
 using Lesson.DomainEventsWithMediatR.DomainEvents.Events;
-using Lesson.DomainEventsWithMediatR.DomainEvents.Handlers;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<ScopedDependency>();
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddMediatR(cfg =>
+{
+    //Обычно все обработчики событий находятся в слое Application
+    cfg.RegisterServicesFromAssemblyContaining<Program>();
+});
 
 var app = builder.Build();
-app.MapGet("/", async (IMediator mediator) =>
+app.MapGet("/", async (IMediator mediator, ILogger<Program> logger, IServiceProvider serviceProvider) =>
 {
-    _ = mediator.Publish(new IndexPageOpened(DateTimeOffset.Now));
-    await Task.Delay(10);
+    logger.LogInformation("Index page opened");
+    logger.LogInformation("Service provider Id: {Id}", serviceProvider.GetHashCode());
+    
+    await mediator.Publish(new IndexPageOpened(DateTimeOffset.Now));
     return "Hello World!";
 });
 

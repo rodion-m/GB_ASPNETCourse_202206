@@ -10,22 +10,25 @@ public class IndexPageOpenedEventHandler : INotificationHandler<IndexPageOpened>
 
     public IndexPageOpenedEventHandler(
         ILogger<IndexPageOpenedEventHandler> logger, 
-        ScopedDependency scopedDependency)
+        ScopedDependency scopedDependency,
+        IServiceProvider serviceProvider)
     {
-        _logger = logger;
-        _scopedDependency = scopedDependency;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _scopedDependency = scopedDependency ?? throw new ArgumentNullException(nameof(scopedDependency));
+        _logger.LogInformation("Service provider Id: {Id}", serviceProvider.GetHashCode());
+        _logger.LogInformation("Created");
     }
 
     public async Task Handle(IndexPageOpened notification, CancellationToken cancellationToken)
     {
         // Если сервер остановится, то cancellationToken НЕ сработает.
-        await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
-        _logger.LogInformation("Do some stuffff here");
+        _logger.LogInformation("Handling IndexPageOpened event");
+        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+        _logger.LogInformation("Handled IndexPageOpened event");
     }
 
     public void Dispose()
     {
-        //Проблема: DISPOSE может быть вызван до завершения метода Handle
         _logger.LogWarning("Disposing");
     }
 }
